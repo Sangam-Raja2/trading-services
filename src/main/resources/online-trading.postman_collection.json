@@ -1,0 +1,207 @@
+{
+	"id": "ae6fde5b-cdfb-b3ac-d62d-ce5fbb7c1bd3",
+	"name": "online-trading",
+	"description": "",
+	"order": [
+		"df04511f-e42e-fecd-00a8-e15a3feb685e",
+		"7804aee5-b05c-637a-a305-4c4db7617ea9",
+		"c2885bdc-98bf-85e7-4179-8ad12faa8848",
+		"6327397a-eba0-c6fd-3549-738dd489185a",
+		"06af7765-b6d5-f598-2f56-283a4d5485e0"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1607620420563,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "06af7765-b6d5-f598-2f56-283a4d5485e0",
+			"headers": "Accept: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8085/trades/stocks/AC/trades?type=buy&start=2020-11-18&end=2020-11-30",
+			"queryParams": [
+				{
+					"key": "type",
+					"value": "buy",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "start",
+					"value": "2020-11-18",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "end",
+					"value": "2020-11-30",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ae6fde5b-cdfb-b3ac-d62d-ce5fbb7c1bd3",
+			"data": null,
+			"dataMode": "params",
+			"name": "trades by type and date rasnge",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1607621484628,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "6327397a-eba0-c6fd-3549-738dd489185a",
+			"headers": "Accept: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8085/trades/stocks/AC/price?start=2020-11-18&end=2020-11-29",
+			"queryParams": [
+				{
+					"key": "start",
+					"value": "2020-11-18",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "end",
+					"value": "2020-11-29",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ae6fde5b-cdfb-b3ac-d62d-ce5fbb7c1bd3",
+			"data": null,
+			"dataMode": "params",
+			"name": "max-min preice base on date range",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1607621307065,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "7804aee5-b05c-637a-a305-4c4db7617ea9",
+			"headers": "Accept: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8085/trades",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ae6fde5b-cdfb-b3ac-d62d-ce5fbb7c1bd3",
+			"data": null,
+			"dataMode": "params",
+			"name": "all trades",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1607620968080,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "c2885bdc-98bf-85e7-4179-8ad12faa8848",
+			"headers": "Accept: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8085/trades/user/12",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ae6fde5b-cdfb-b3ac-d62d-ce5fbb7c1bd3",
+			"data": null,
+			"dataMode": "params",
+			"name": "trade by user id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1607621082976,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "df04511f-e42e-fecd-00a8-e15a3feb685e",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8085/trades",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "ae6fde5b-cdfb-b3ac-d62d-ce5fbb7c1bd3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "create trade",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1607620537159,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\r\n    \"tradeId\": 45,\r\n    \"type\": \"buy\",\r\n    \"symbol\": \"AC\",\r\n    \"shares\": \"20\",\r\n    \"price\": 4900.00,\r\n    \"timestamp\": \"2020-11-24 08:00:00\",\r\n    \"user\": {\r\n        \"userId\": 12,\r\n        \"userName\": \"sagar\",\r\n        \"email\": \"sagar@gmail.com\",\r\n        \"address\": \"india\"\r\n    }\r\n}"
+		}
+	]
+}
