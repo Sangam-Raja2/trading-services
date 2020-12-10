@@ -132,7 +132,7 @@ public class TradeControllerTest {
         System.out.println("getAllRecords");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                url + "/getAll").accept(
+                url ).accept(
                         MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

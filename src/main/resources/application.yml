@@ -1,6 +1,6 @@
 server:
     port: 8085
-#    contextPath: /swagger2-demo/v2/api-docs
+    contextPath: /swagger2-demo/v2/api-docs
 
 spring:
  

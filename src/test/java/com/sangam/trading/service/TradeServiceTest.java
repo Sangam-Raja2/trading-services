@@ -12,6 +12,7 @@ import com.sangam.trading.entity.User;
 import com.sangam.trading.model.PriceModel;
 import com.sangam.trading.model.TradeModel;
 import com.sangam.trading.model.UserModel;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.After;
@@ -26,6 +27,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 
 /**
  *
@@ -42,6 +45,10 @@ public class TradeServiceTest {
     TradeService tradeService;
     User user;
     Trade trade;
+    Double min = 125.0;
+    Double max = 12555.0;
+    List<Trade> tradeList;
+
     public TradeServiceTest() {
     }
 
@@ -55,15 +62,34 @@ public class TradeServiceTest {
 
     @Before
     public void setUp() {
-         user = new User();
-         user.setUserId(1l);
-         user.setUserName("sangam");
-         user.setEmail("sangam@gmail.com");
-         user.setAddress("bangalore");
-         trade=new Trade();
-         trade.setPrice(123.0);
-         trade.setSymbol("bed");
-         trade.setShares("25");
+        user = new User();
+        user.setUserId(1l);
+        user.setUserName("sangam");
+        user.setEmail("sangam@gmail.com");
+        user.setAddress("bangalore");
+        trade = new Trade();
+        trade.setTimestamp(new Date());
+        trade.setType("buy");
+        trade.setSymbol("bed");
+        trade.setShares("25");
+        trade.setPrice(25000.0);
+        Trade buy = new Trade();
+        buy.setTimestamp(new Date());
+        buy.setType("buy");
+        buy.setSymbol("ac");
+        buy.setShares("25");
+        buy.setPrice(25000.0);
+        Trade sell = new Trade();
+        sell.setTimestamp(new Date());
+        sell.setType("buy");
+        sell.setSymbol("bed");
+        sell.setShares("25");
+        sell.setPrice(25000.0);
+        tradeList = new ArrayList<>();
+        tradeList.add(trade);
+        tradeList.add(buy);
+        tradeList.add(sell);
+        user.setTradeList(tradeList);
     }
 
     @After
@@ -75,10 +101,10 @@ public class TradeServiceTest {
      */
     @Test
     public void testCreateTrade() throws Exception {
-         UserModel muckUser = new UserModel(1, "sangam", "sangam@gmail.com", "india");
+        UserModel muckUser = new UserModel(1, "sangam", "sangam@gmail.com", "india");
         TradeModel mockTrade = new TradeModel(1, "buy", "bed", "25", 100, muckUser);
         System.out.println("createTrade");
-         when(tradeRepository.getByTradeId(Mockito.any(Long.class)))
+        when(tradeRepository.getByTradeId(Mockito.any(Long.class)))
                 .thenReturn(null);
         when(userRepositroy.save(Mockito.any(User.class)))
                 .thenReturn(user);
@@ -87,7 +113,7 @@ public class TradeServiceTest {
         TradeModel result = tradeService.createTrade(mockTrade);
 
         System.out.println("result>>" + result);
-         assertEquals(user.getUserName(), result.getUser().getUserName());
+        assertEquals(user.getUserName(), result.getUser().getUserName());
         assertEquals(trade.getShares(), result.getShares());
         assertEquals(trade.getSymbol(), result.getSymbol());
     }
@@ -95,63 +121,90 @@ public class TradeServiceTest {
     /**
      * Test of getTradesByUser method, of class TradeService.
      */
-//    @Test
-//    public void testGetTradesByUser() {
-//        System.out.println("getTradesByUser");
-//        long userId = 0L;
-//        TradeService instance = new TradeService();
-//        List<User> expResult = null;
-//        List<User> result = instance.getTradesByUser(userId);
-//    }
-//
-//    /**
-//     * Test of findAllTrades method, of class TradeService.
-//     */
-//    @Test
-//    public void testFindAllTrades() {
-//        System.out.println("findAllTrades");
-//        TradeService instance = new TradeService();
-//        List<Trade> expResult = null;
-//        List<Trade> result = instance.findAllTrades();
-//    }
-//
-//    /**
-//     * Test of deleteByTrade method, of class TradeService.
-//     */
-//    @Test
-//    public void testDeleteByTrade() {
-//        System.out.println("deleteByTrade");
-//        long userId = 0L;
-//        TradeService instance = new TradeService();
-//    }
-//
-//    /**
-//     * Test of getTradeByStrockandTradeType method, of class TradeService.
-//     */
-//    @Test
-//    public void testGetTradeByStrockandTradeType() {
-//        System.out.println("getTradeByStrockandTradeType");
-//        String symbol = "";
-//        String type = "";
-//        Date startDate = null;
-//        Date endDate = null;
-//        TradeService instance = new TradeService();
-//        List<Trade> expResult = null;
-//        List<Trade> result = instance.getTradeByStrockandTradeType(symbol, type, startDate, endDate);
-//    }
-//
-//    /**
-//     * Test of getTradeByStrockPrice method, of class TradeService.
-//     */
-//    @Test
-//    public void testGetTradeByStrockPrice() {
-//        System.out.println("getTradeByStrockPrice");
-//        String symbol = "";
-//        Date startDate = null;
-//        Date endDate = null;
-//        TradeService instance = new TradeService();
-//        PriceModel expResult = null;
-//        PriceModel result = instance.getTradeByStrockPrice(symbol, startDate, endDate);
-//    }
+    @Test
+    public void testGetTradesByUser() {
+        System.out.println("getTradesByUser");
+        when(userRepositroy.getByUserId(Mockito.any(Long.class)))
+                .thenReturn(user);
+        TradeService instance = new TradeService();
+        List<User> expResult = null;
+        User result = tradeService.getTradesByUser(1l);
+        assertEquals(user.getTradeList(), result.getTradeList());
 
+    }
+
+    /**
+     * Test of findAllTrades method, of class TradeService.
+     */
+    @Test
+    public void testFindAllTrades() {
+        System.out.println("findAllTrades");
+        when(tradeRepository.findAll())
+                .thenReturn(tradeList);
+        List<Trade> expResult = null;
+        List<Trade> result = tradeService.findAllTrades();
+        assertEquals(tradeList, result);
+    }
+
+    /**
+     * Test of deleteByTrade method, of class TradeService.
+     */
+    @Test
+    public void testdeleteAllTrades() {
+        System.out.println("deleteAllTrades");
+        Boolean deleteAllTrades = tradeService.deleteAllTrades();
+        assertEquals(deleteAllTrades, true);
+    }
+
+    /**
+     * Test of getTradeByStrockandTradeType method, of class TradeService.
+     */
+    @Test
+    public void testGetTradeByStrockandTradeType() {
+        System.out.println("getTradeByStrockandTradeType");
+        String symbol = "Ac";
+        String type = "sell";
+        Date startDate = new Date();
+        Date endDate = new Date();
+        when(tradeRepository.findBySymbolandType(Mockito.any(String.class),
+                Mockito.any(String.class), Mockito.any(Date.class),
+                Mockito.any(Date.class)))
+                .thenReturn(tradeList);
+        List<Trade> result = tradeService.getTradeByStrockandTradeType(symbol,
+                type, startDate, endDate);
+        assertEquals(tradeList, result);
+    }
+
+    /**
+     * Test of getTradeByStrockPrice method, of class TradeService.
+     */
+    @Test
+    public void testGetTradeByStrockPrice() {
+        System.out.println("getTradeByStrockPrice");
+        String symbol = "Ac";
+        Date startDate = new Date();
+        Date endDate = new Date();
+        when(tradeRepository.findByMaxPriceSymbol(Mockito.any(String.class),
+                Mockito.any(Date.class),
+                Mockito.any(Date.class)))
+                .thenReturn(max);
+        when(tradeRepository.findByMinPriceSymbol(Mockito.any(String.class),
+                Mockito.any(Date.class),
+                Mockito.any(Date.class)))
+                .thenReturn(min);
+        PriceModel result = tradeService.getTradeByStrockPrice(symbol, startDate, endDate);
+        assertEquals(max, result.getMax());
+        assertEquals(min, result.getMin());
+    }
+
+    private ModelMapper getModelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        // modelMapper Configuration
+        modelMapper.getConfiguration().setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+        modelMapper.getConfiguration().setAmbiguityIgnored(true);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        return modelMapper;
+    }
 }
