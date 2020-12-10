@@ -10,4 +10,8 @@ i. First create tradeDB in local directory like ex. C:\Users\sangam\tradeDB
 ii. username: sa and password: don’t provide
 iii. Then use above url to see the database information and table, schema etc.
 
+5.	For swagger API documentation, you can use below mention url.
+http://localhost:8085/api/v2/api-docs
+http://localhost:8085/api/swagger-ui.html
+
 6.	Postman collection details also attached in resource folder
