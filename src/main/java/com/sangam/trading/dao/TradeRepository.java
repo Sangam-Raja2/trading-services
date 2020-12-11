@@ -9,8 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sangam.trading.entity.Trade;
-import com.sangam.trading.entity.User;
-import com.sangam.trading.model.TradeModel;;
+import com.sangam.trading.model.PriceModel;
 
 /**
  *
@@ -42,4 +41,8 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
 	public Double findByMaxPriceSymbol(String symbol,  Date startDate,
 			 Date endDate);
 
+        @Query(value = "SELECT new com.sangam.trading.model.PriceModel( MIN(price) as min,MAX(price) as max) from Trade "
+                + "WHERE symbol=?1 AND timestamp BETWEEN ?2 AND ?3")
+	public PriceModel findByMinMaxPriceSymbol(String symbol,  Date startDate,
+			 Date endDate);
 }

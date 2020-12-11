@@ -9,6 +9,12 @@ public class PriceModel {
 	private Double min;
 	private Double max;
 
+    public PriceModel(Double min, Double max) {
+        this.min = min;
+        this.max = max;
+    }
+
+        
 	public Double getMin() {
 		return min;
 	}

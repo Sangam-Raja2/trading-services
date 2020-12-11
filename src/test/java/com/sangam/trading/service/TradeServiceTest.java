@@ -184,14 +184,11 @@ public class TradeServiceTest {
         String symbol = "Ac";
         Date startDate = new Date();
         Date endDate = new Date();
-        when(tradeRepository.findByMaxPriceSymbol(Mockito.any(String.class),
+       
+        when(tradeRepository.findByMinMaxPriceSymbol(Mockito.any(String.class),
                 Mockito.any(Date.class),
                 Mockito.any(Date.class)))
-                .thenReturn(max);
-        when(tradeRepository.findByMinPriceSymbol(Mockito.any(String.class),
-                Mockito.any(Date.class),
-                Mockito.any(Date.class)))
-                .thenReturn(min);
+                .thenReturn(new PriceModel(min, max));
         PriceModel result = tradeService.getTradeByStrockPrice(symbol, startDate, endDate);
         assertEquals(max, result.getMax());
         assertEquals(min, result.getMin());

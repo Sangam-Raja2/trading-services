@@ -153,15 +153,9 @@ public class TradeService {
      * price
      */
     public PriceModel getTradeByStrockPrice(String symbol, Date startDate, Date endDate) {
-        Double minPrice = tradeRepository
-                .findByMinPriceSymbol(symbol, startDate, endDate);
-        Double maxPrice = tradeRepository
-                .findByMaxPriceSymbol(symbol, startDate, endDate);
-        if (minPrice != null && maxPrice != null) {
-            PriceModel model = new PriceModel();
-            model.setMin(minPrice);
-            model.setMax(maxPrice);
-            return model;
+        PriceModel price = tradeRepository.findByMinMaxPriceSymbol(symbol, startDate, endDate);
+        if (price.getMin() != null && price.getMax() != null) {
+            return price;
         } else {
             throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(),
                     "trade not found", "there are no trades in the given date range");
