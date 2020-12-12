@@ -138,9 +138,11 @@ public class TradeService {
         // Create Conversion Type
         Type listType = new TypeToken<List<Trade>>() {
         }.getType();
-        findAll = tradeRepository.findBySymbolandType(symbol, type, startDate, endDate);
+        findAll = tradeRepository.findBySymbolandType(symbol.toUpperCase(), 
+                type.toUpperCase(), startDate, endDate);
         if (findAll.isEmpty()) {
-            throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), "No trades found",
+            throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(),
+                    "No trades found",
                     "Given date range");
         }
         return findAll;
@@ -152,7 +154,8 @@ public class TradeService {
      * price
      */
     public PriceModel getTradeByStrockPrice(String symbol, Date startDate, Date endDate) {
-        PriceModel price = tradeRepository.findByMinMaxPriceSymbol(symbol, startDate, endDate);
+        PriceModel price = tradeRepository.findByMinMaxPriceSymbol(symbol.toUpperCase(), 
+                startDate, endDate);
         if (price.getMin() != null && price.getMax() != null) {
             return price;
         } else {
