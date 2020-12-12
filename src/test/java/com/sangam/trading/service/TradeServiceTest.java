@@ -28,7 +28,6 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 
 /**
  *
@@ -41,6 +40,8 @@ public class TradeServiceTest {
     TradeRepository tradeRepository;
     @Mock
     UsersRepository userRepositroy;
+    @Mock
+    ModelMapper modelMapper;
     @InjectMocks
     TradeService tradeService;
     User user;
@@ -110,6 +111,16 @@ public class TradeServiceTest {
                 .thenReturn(user);
         when(tradeRepository.save(Mockito.any(Trade.class)))
                 .thenReturn(trade);
+        when(modelMapper.map(Mockito.any(TradeModel.class),
+                Mockito.eq(Trade.class))).thenReturn(trade);
+        when(modelMapper.map(Mockito.any(UserModel.class),
+                Mockito.eq(User.class))).thenReturn(user);
+        when(modelMapper.map(Mockito.any(User.class),
+                Mockito.eq(UserModel.class)))
+                .thenReturn(muckUser);
+        when(modelMapper.map(Mockito.any(Trade.class),
+                Mockito.eq(TradeModel.class)))
+                .thenReturn(mockTrade);
         TradeModel result = tradeService.createTrade(mockTrade);
 
         System.out.println("result>>" + result);
@@ -184,7 +195,7 @@ public class TradeServiceTest {
         String symbol = "Ac";
         Date startDate = new Date();
         Date endDate = new Date();
-       
+
         when(tradeRepository.findByMinMaxPriceSymbol(Mockito.any(String.class),
                 Mockito.any(Date.class),
                 Mockito.any(Date.class)))
@@ -194,14 +205,4 @@ public class TradeServiceTest {
         assertEquals(min, result.getMin());
     }
 
-    private ModelMapper getModelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        // modelMapper Configuration
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true)
-                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        return modelMapper;
-    }
 }

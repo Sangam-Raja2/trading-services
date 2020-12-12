@@ -74,7 +74,6 @@ public class TradeService {
             trade.setUserId(user);
             UserModel userModel = modelMapper.map(user, UserModel.class);
             Trade returnval = tradeRepository.save(trade);
-            User userId = trade.getUserId();
             if (returnval == null) {
                 throw new TradeException(HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.value(), "unable To Create Trade",
                         "Kindly Check Your Payload");
@@ -140,13 +139,11 @@ public class TradeService {
         Type listType = new TypeToken<List<Trade>>() {
         }.getType();
         findAll = tradeRepository.findBySymbolandType(symbol, type, startDate, endDate);
-        // Convert List of Entity objects to a List of DTOs objects
-        List<Trade> returnValue = modelMapper.map(findAll, listType);
         if (findAll.isEmpty()) {
             throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), "No trades found",
                     "Given date range");
         }
-        return returnValue;
+        return findAll;
 
     }
 
