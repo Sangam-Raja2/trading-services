@@ -35,6 +35,8 @@ public class TradeService {
     TradeRepository tradeRepository;
     @Autowired
     UsersRepository userRepositroy;
+    @Autowired
+    ModelMapper modelMapper;
 
     /**
      * User create trade
@@ -59,7 +61,7 @@ public class TradeService {
                     " trade id already present, create trades wirh different id",
                     " trade id should be unique");
         }
-        ModelMapper modelMapper = getModelMapper();
+//        ModelMapper modelMapper = getModelMapper();
         Trade trade = modelMapper.map(tradeModel, Trade.class);
         User user = modelMapper.map(tradeModel.getUser(), User.class);
         if (trade != null) {
@@ -139,7 +141,7 @@ public class TradeService {
         }.getType();
         findAll = tradeRepository.findBySymbolandType(symbol, type, startDate, endDate);
         // Convert List of Entity objects to a List of DTOs objects
-        List<Trade> returnValue = getModelMapper().map(findAll, listType);
+        List<Trade> returnValue = modelMapper.map(findAll, listType);
         if (findAll.isEmpty()) {
             throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), "No trades found",
                     "Given date range");
@@ -160,17 +162,6 @@ public class TradeService {
             throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(),
                     "trade not found", "there are no trades in the given date range");
         }
-    }
-
-    private ModelMapper getModelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        // modelMapper Configuration
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true)
-                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        return modelMapper;
     }
 
 }
