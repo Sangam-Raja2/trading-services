@@ -65,11 +65,20 @@ public class TradeService {
         Trade trade = modelMapper.map(tradeModel, Trade.class);
         User user = modelMapper.map(tradeModel.getUser(), User.class);
         if (trade != null) {
-            User byUserId = userRepositroy.getByUserId(user.getUserId());
-            if (byUserId == null) {
+            User byEmail = userRepositroy.getByEmail(user.getEmail());
+            if (byEmail == null) {
                 user = userRepositroy.save(user);
             } else {
-                user = byUserId;
+                System.out.println("byEmail.getUserId()"+byEmail.getUserId());
+                System.out.println("user.getUserId()"+byEmail.getUserId());
+                if (byEmail.getUserId().equals( user.getUserId())) {
+                    user = byEmail;
+                }else{
+                       throw new TradeException(HttpStatus.BAD_REQUEST, 
+                               HttpStatus.BAD_REQUEST.value(),
+                    "email ID already exists, try with different email iD",
+                    "email ID shold be unique for each user");
+                }
             }
             trade.setUserId(user);
             UserModel userModel = modelMapper.map(user, UserModel.class);
@@ -119,7 +128,6 @@ public class TradeService {
      */
     public Boolean deleteAllTrades() {
         try {
-            userRepositroy.deleteAll();
             tradeRepository.deleteAll();
         } catch (Exception ex) {
             throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(),
@@ -138,7 +146,7 @@ public class TradeService {
         // Create Conversion Type
         Type listType = new TypeToken<List<Trade>>() {
         }.getType();
-        findAll = tradeRepository.findBySymbolandType(symbol.toUpperCase(), 
+        findAll = tradeRepository.findBySymbolandType(symbol.toUpperCase(),
                 type.toUpperCase(), startDate, endDate);
         if (findAll.isEmpty()) {
             throw new TradeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(),
@@ -154,7 +162,7 @@ public class TradeService {
      * price
      */
     public PriceModel getTradeByStrockPrice(String symbol, Date startDate, Date endDate) {
-        PriceModel price = tradeRepository.findByMinMaxPriceSymbol(symbol.toUpperCase(), 
+        PriceModel price = tradeRepository.findByMinMaxPriceSymbol(symbol.toUpperCase(),
                 startDate, endDate);
         if (price.getMin() != null && price.getMax() != null) {
             return price;
