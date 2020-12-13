@@ -10,13 +10,13 @@ public class ErrorMessage {
 
 	private HttpStatus status;
 	private int code;
-	private String message;
+	private Object message;
 	private String developerMessage;
 
 	public ErrorMessage() {
 	}
 
-	public ErrorMessage(HttpStatus status, int code, String message, String developerMessage) {
+	public ErrorMessage(HttpStatus status, int code, Object message, String developerMessage) {
 
 		super();
 		this.status = status;
@@ -25,7 +25,7 @@ public class ErrorMessage {
 		this.developerMessage = developerMessage;
 	}
 
-	public ErrorMessage(HttpStatus status, int code, String message) {
+	public ErrorMessage(HttpStatus status, int code, Object message) {
 		super();
 		this.status = status;
 		this.code = code;
@@ -54,11 +54,11 @@ public class ErrorMessage {
 		this.code = code;
 	}
 
-	public String getMessage() {
+	public Object getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(Object message) {
 		this.message = message;
 	}
 

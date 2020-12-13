@@ -37,17 +37,12 @@ public class RestException extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
-		StringBuilder message = new StringBuilder();
 		StringWriter sw = new StringWriter();
 		ex.printStackTrace(new PrintWriter(sw));
 		String exceptionAsString = sw.toString();
 
-		for (ObjectError error : allErrors) {
-			message.append(error.getObjectName() + " : ");
-			message.append(error.getDefaultMessage() + ";  ");
-		}
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
-				message.toString(), exceptionAsString);
+				allErrors, exceptionAsString);
 		return new ResponseEntity<>(errorMessage, HttpStatus.FORBIDDEN);
 	}
 

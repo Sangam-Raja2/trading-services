@@ -42,17 +42,6 @@ public class TradeService {
      * User create trade
      */
     public TradeModel createTrade(TradeModel tradeModel) {
-        if (tradeModel.getTradeId() == 0) {
-            throw new TradeException(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
-                    " trade id is Invalid trade id should not be zero ",
-                    " trade id is Invalid trade id should not be zero ");
-        }
-        Optional<UserModel> checkUser = Optional.ofNullable(tradeModel.getUser());
-        if (checkUser.isPresent() && tradeModel.getUser().getUserId() == 0) {
-            throw new TradeException(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(),
-                    " userId is Invalid userId should not be null or zero",
-                    " userId is Invalid userId should not be null or zero");
-        }
         Trade tradeId = tradeRepository.getByTradeId(tradeModel.getTradeId());
         Optional<Trade> checkTrade = Optional.ofNullable(tradeId);
         TradeModel tmReturn = null;
