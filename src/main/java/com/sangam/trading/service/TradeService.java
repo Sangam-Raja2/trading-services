@@ -50,7 +50,6 @@ public class TradeService {
                     " trade id already present, create trades wirh different id",
                     " trade id should be unique");
         }
-//        ModelMapper modelMapper = getModelMapper();
         Trade trade = modelMapper.map(tradeModel, Trade.class);
         User user = modelMapper.map(tradeModel.getUser(), User.class);
         if (trade != null) {
@@ -58,8 +57,6 @@ public class TradeService {
             if (byEmail == null) {
                 user = userRepositroy.save(user);
             } else {
-                System.out.println("byEmail.getUserId()"+byEmail.getUserId());
-                System.out.println("user.getUserId()"+byEmail.getUserId());
                 if (byEmail.getUserId().equals( user.getUserId())) {
                     user = byEmail;
                 }else{
@@ -73,7 +70,8 @@ public class TradeService {
             UserModel userModel = modelMapper.map(user, UserModel.class);
             Trade returnval = tradeRepository.save(trade);
             if (returnval == null) {
-                throw new TradeException(HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.value(), "unable To Create Trade",
+                throw new TradeException(HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.value(), 
+                        "unable To Create Trade",
                         "Kindly Check Your Payload");
             } else {
                 tmReturn = modelMapper.map(returnval, TradeModel.class);
